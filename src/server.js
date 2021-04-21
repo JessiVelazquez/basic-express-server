@@ -6,6 +6,7 @@ const app = express();
 const notFound = require('./error-handlers/404.js');
 const errors = require('./error-handlers/500.js');
 const logger = require('./middleware/logger.js');
+const validator = require('./middleware/validator.js');
 
 app.use(logger);
 
@@ -14,9 +15,9 @@ app.get('/hello', (req, res) => {
   res.send('hello world!');
 });
 
-app.get('/hello/:person', (req, res) => {
-  console.log('name:', req.params.person)
-  res.send({ name: req.params.person });
+app.get('/person', validator, (req, res) => {
+  console.log('person:', req.query.name)
+  res.send({ name: req.query.name });
 });
 
 app.get('/hello/:person/:another', (req, res) => {
